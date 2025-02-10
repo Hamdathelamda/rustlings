@@ -13,7 +13,7 @@ mod tests {
         if let Some(word) = optional_target {
             assert_eq!(word, target);
         }
-    }
+    } }
 
     #[test]
     fn layered_option() {
@@ -29,12 +29,11 @@ mod tests {
         // TODO: Make this a while-let statement. Remember that `Vec::pop()`
         // adds another layer of `Option`. You can do nested pattern matching
         // in if-let and while-let statements.
-        while let Some(integer) = optional_integer.pop() {
-             if let Some(val) = integer {
-            assert_eq!(integer, cursor);
-            cursor -= 1;
-        }
+        while let Some(integer) = optional_integers.pop() {
+            if let Some(val) = integer {
+                assert_eq!(val, cursor);
+                cursor -= 1;
 
         assert_eq!(cursor, 0);
     }
-}
+}}
