@@ -10,7 +10,7 @@ struct JobStatus {
 
 fn main() {
     // TODO: `Arc` isn't enough if you want a **mutable** shared state.
-    let status = Arc::new(JobStatus { jobs_done: 0 });
+    let status = Arc::new(Mutex::new(JobStatus { jobs_done: 0 }));
 
     let mut handles = Vec::new();
     for _ in 0..10 {
@@ -20,6 +20,8 @@ fn main() {
 
             // TODO: You must take an action before you update a shared value.
             status_shared.jobs_done += 1;
+             let mut job_status = status_shared.lock().unwrap();
+            job_status.jobs_done += 1;
         });
         handles.push(handle);
     }
@@ -31,4 +33,7 @@ fn main() {
 
     // TODO: Print the value of `JobStatus.jobs_done`.
     println!("Jobs done: {}", todo!());
+    let final_status = status.lock().unwrap();
+    println!("Jobs done: {}", final_status.jobs_done);
 }
+
